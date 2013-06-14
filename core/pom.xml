@@ -48,7 +48,7 @@
                 <configuration>
                     <systemPropertyVariables>
                         <!--<propertyName>propertyValue</propertyName>-->
-                        <sampleDirectoryPath>${project.parent.basedir}/sample</sampleDirectoryPath>
+                        <sampleDirectoryPath>${project.basedir}/sample</sampleDirectoryPath>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
