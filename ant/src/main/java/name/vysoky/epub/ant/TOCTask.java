@@ -19,8 +19,8 @@ public class TOCTask extends Task {
     final Logger logger = LoggerFactory.getLogger(TOCTask.class);
 
     private String dir;
-    private byte minLevel;
-    private byte maxLevel;
+    private int minLevel;
+    private int maxLevel;
 
     public TOCTask() { }
 
@@ -29,11 +29,11 @@ public class TOCTask extends Task {
     }
 
     public void setMinLevel(String minLevel) {
-        this.minLevel = Byte.parseByte(minLevel);
+        this.minLevel = Integer.parseInt(minLevel);
     }
 
     public void setMaxLevel(String maxLevel) {
-        this.maxLevel = Byte.parseByte(maxLevel);
+        this.maxLevel = Integer.parseInt(maxLevel);
     }
 
     @Override

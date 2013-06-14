@@ -24,7 +24,7 @@ public class TOCGenerator {
 
     private EpubTool epubTool;
 
-    public TOCGenerator(EpubTool epubTool, byte minLevel, byte maxLevel) {
+    public TOCGenerator(EpubTool epubTool, int minLevel, int maxLevel) {
         this.epubTool = epubTool;
         this.buffer.setMinLevel(minLevel);
         this.buffer.setMaxLevel(maxLevel);

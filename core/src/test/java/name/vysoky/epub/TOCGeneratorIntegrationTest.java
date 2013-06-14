@@ -16,7 +16,7 @@ public class TOCGeneratorIntegrationTest {
         String sampleDirectoryPath = System.getProperty("sampleDirectoryPath");
         File directory = new File(sampleDirectoryPath);
         EpubTool tool = new EpubTool(directory);
-//        TOCGenerator generator = new TOCGenerator(tool, 1, 6);
-//        generator.generate();
+        TOCGenerator generator = new TOCGenerator(tool, 1, 6);
+        generator.generate();
     }
 }

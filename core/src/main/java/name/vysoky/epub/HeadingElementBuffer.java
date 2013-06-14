@@ -16,16 +16,16 @@ public class HeadingElementBuffer {
     private List<HeadingElement> processed = new ArrayList<HeadingElement>(); // processed roots only
     private HeadingElement[] opened = new HeadingElement[5];
 
-    private byte minLevel = 1;
-    private byte maxLevel = (byte) HeadingElement.HEADINGS.length;
+    private int minLevel = 1;
+    private int maxLevel = (byte) HeadingElement.HEADINGS.length;
     private String[] ignoreClasses = { "tocignore" };
 
-    public void setMinLevel(byte minLevel) {
+    public void setMinLevel(int minLevel) {
         //TODO: Check if is between 1 and 6
         this.minLevel = minLevel;
     }
 
-    public void setMaxLevel(byte maxLevel) {
+    public void setMaxLevel(int maxLevel) {
         //TODO: Check if is between 1 and 6
         this.maxLevel = maxLevel;
     }
