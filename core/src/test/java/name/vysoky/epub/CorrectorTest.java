@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Corrector test.
+ * Corrector tests.
  * @author Jiri Vysoky
  */
 public class CorrectorTest {
@@ -14,7 +14,8 @@ public class CorrectorTest {
     @Test
     public void testCorrect() {
         try {
-            File directory = new File("/home/dropbox/epub-project/src");
+            String sampleDirectoryPath = System.getProperty("sampleDirectoryPath");
+            File directory = new File(sampleDirectoryPath);
             Locale locale = new Locale("cs", "CZ");
             EpubTool epubTool = new EpubTool(directory);
             Corrector corrector = new Corrector(epubTool, locale);

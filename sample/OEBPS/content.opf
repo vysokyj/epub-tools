@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="uuid_id">
+    <metadata xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/">
+        <dc:title>Test ePUB</dc:title>
+        <dc:creator opf:file-as="Jerome" opf:role="aut">Tester</dc:creator>
+        <dc:language>cs</dc:language>
+        <dc:date>2008-11-05T23:00:00+00:00</dc:date>
+        <dc:identifier id="uuid_id" opf:scheme="uuid">fc6d4194-0432-4f39-903c-90fcf6362de2</dc:identifier>
+        <meta name="cover" content="cover-image"/>
+    </metadata>
+    <manifest>
+        <item href="test.xhtml" id="test" media-type="application/xhtml+xml"/>
+        <item href="toc.ncx" media-type="application/x-dtbncx+xml" id="ncx"/>
+    </manifest>
+    <spine toc="ncx">
+        <itemref idref="test"/>
+    </spine>
+    <guide>
+        <reference href="test.xhtml" type="cover" title="Cover"/>
+    </guide>
+</package>
