@@ -29,9 +29,6 @@ public class CorrectTask extends Task {
     private String language = DEFAULT_LANGUAGE;
     private String country = DEFAULT_COUNTRY;
 
-    private EpubTool epubTool;
-    private Corrector corrector;
-
     /**
      * Locale language name, e.g. "en" from "en_US" locale.
      * @param language language
@@ -62,8 +59,8 @@ public class CorrectTask extends Task {
         try {
             File directory = new File(dir);
             Locale locale = new Locale(language, country);
-            epubTool = new EpubTool(directory);
-            corrector = new Corrector(epubTool, locale);
+            EpubTool epubTool = new EpubTool(directory);
+            Corrector corrector = new Corrector(epubTool, locale);
             corrector.correct();
         } catch (Exception e) {
             logger.error("Unable to replace epub!", e);
