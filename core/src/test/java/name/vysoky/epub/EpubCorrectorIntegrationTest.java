@@ -9,7 +9,7 @@ import java.util.Locale;
  * Corrector tests.
  * @author Jiri Vysoky
  */
-public class CorrectorIntegrationTest {
+public class EpubCorrectorIntegrationTest {
 
     @Test
     public void testCorrect() {
@@ -18,7 +18,7 @@ public class CorrectorIntegrationTest {
             File directory = new File(sampleDirectoryPath);
             Locale locale = new Locale("cs", "CZ");
             EpubTool epubTool = new EpubTool(directory);
-            Corrector corrector = new Corrector(epubTool, locale);
+            EpubCorrector corrector = new EpubCorrector(epubTool, locale);
             corrector.correct();
         } catch (Exception e) {
             e.printStackTrace();

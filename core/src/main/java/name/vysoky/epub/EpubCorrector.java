@@ -16,14 +16,14 @@ import java.util.Locale;
  * Text corrector.
  * @author Jiri Vysoky
  */
-public class Corrector {
+public class EpubCorrector {
 
-    final Logger logger = LoggerFactory.getLogger(Corrector.class);
+    final Logger logger = LoggerFactory.getLogger(EpubCorrector.class);
 
     private EpubTool epubTool;
     private Replacer replacer;
 
-    public Corrector(EpubTool epubTool, Locale locale) {
+    public EpubCorrector(EpubTool epubTool, Locale locale) {
         this.epubTool = epubTool;
         this.replacer = new Replacer(new LocaleLoader(locale));
     }

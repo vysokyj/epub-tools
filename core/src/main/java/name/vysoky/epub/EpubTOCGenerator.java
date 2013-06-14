@@ -15,16 +15,16 @@ import java.util.List;
  * Table of content generator.
  * @author Jiri Vysoky
  */
-public class TOCGenerator {
+public class EpubTOCGenerator {
 
-    final Logger logger = LoggerFactory.getLogger(TOCGenerator.class);
+    final Logger logger = LoggerFactory.getLogger(EpubTOCGenerator.class);
 
     private TableOfContents toc = new TableOfContents();
     private HeadingElementBuffer buffer = new HeadingElementBuffer();
 
     private EpubTool epubTool;
 
-    public TOCGenerator(EpubTool epubTool, int minLevel, int maxLevel) {
+    public EpubTOCGenerator(EpubTool epubTool, int minLevel, int maxLevel) {
         this.epubTool = epubTool;
         this.buffer.setMinLevel(minLevel);
         this.buffer.setMaxLevel(maxLevel);

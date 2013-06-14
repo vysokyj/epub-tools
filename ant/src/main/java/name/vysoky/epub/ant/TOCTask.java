@@ -1,7 +1,7 @@
 package name.vysoky.epub.ant;
 
+import name.vysoky.epub.EpubTOCGenerator;
 import name.vysoky.epub.EpubTool;
-import name.vysoky.epub.TOCGenerator;
 import org.apache.tools.ant.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class TOCTask extends Task {
         try {
             File directory = new File(dir);
             EpubTool tool = new EpubTool(directory);
-            TOCGenerator generator = new TOCGenerator(tool, minLevel, maxLevel);
+            EpubTOCGenerator generator = new EpubTOCGenerator(tool, minLevel, maxLevel);
             generator.generate();
         } catch (Exception e) {
             logger.error("Exception!", e);

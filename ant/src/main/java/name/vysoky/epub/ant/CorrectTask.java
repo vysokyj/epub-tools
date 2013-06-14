@@ -1,6 +1,6 @@
 package name.vysoky.epub.ant;
 
-import name.vysoky.epub.Corrector;
+import name.vysoky.epub.EpubCorrector;
 import name.vysoky.epub.EpubTool;
 import org.apache.tools.ant.Task;
 import org.slf4j.Logger;
@@ -60,7 +60,7 @@ public class CorrectTask extends Task {
             File directory = new File(dir);
             Locale locale = new Locale(language, country);
             EpubTool epubTool = new EpubTool(directory);
-            Corrector corrector = new Corrector(epubTool, locale);
+            EpubCorrector corrector = new EpubCorrector(epubTool, locale);
             corrector.correct();
         } catch (Exception e) {
             logger.error("Unable to replace epub!", e);

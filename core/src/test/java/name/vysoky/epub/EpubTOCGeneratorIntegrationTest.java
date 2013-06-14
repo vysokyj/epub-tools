@@ -9,14 +9,14 @@ import java.io.File;
  *
  * @author Jiri Vysoky
  */
-public class TOCGeneratorIntegrationTest {
+public class EpubTOCGeneratorIntegrationTest {
 
     @Test
     public void generatorTest() throws Exception {
         String sampleDirectoryPath = System.getProperty("sampleDirectoryPath");
         File directory = new File(sampleDirectoryPath);
         EpubTool tool = new EpubTool(directory);
-        TOCGenerator generator = new TOCGenerator(tool, 1, 6);
+        EpubTOCGenerator generator = new EpubTOCGenerator(tool, 1, 6);
         generator.generate();
     }
 }
