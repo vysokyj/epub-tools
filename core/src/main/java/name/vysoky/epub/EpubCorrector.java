@@ -41,7 +41,8 @@ public class EpubCorrector {
     private Document processPart(Resource resource) {
         try {
             Document document = epubTool.readDocument(resource);
-            Element root = document.getDocumentElement();
+            //Element root = document.getDocumentElement();
+            Element root = epubTool.getBodyElement(document);
             processElement(root);
             return document;
         } catch (Exception e) {
@@ -58,8 +59,9 @@ public class EpubCorrector {
             if (node.getNodeType() == Node.TEXT_NODE) {
                 Text text = (Text) node;
                 String is = text.getData();
-                String os = replacer.replace(is);
-                if (!is.equals(os)) text.setData(os);
+                if (!is.trim().replaceAll("\\n", "").isEmpty()) logger.info("IS: " + is);
+                //String os = replacer.replace(is);
+                //if (!is.equals(os)) text.setData(os);
             }
         }
         // recursion
