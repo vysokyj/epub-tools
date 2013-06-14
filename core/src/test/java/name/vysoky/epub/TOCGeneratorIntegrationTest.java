@@ -9,7 +9,7 @@ import java.io.File;
  *
  * @author Jiri Vysoky
  */
-public class TOCGeneratorTest {
+public class TOCGeneratorIntegrationTest {
 
     @Test
     public void generatorTest() throws Exception {

@@ -9,7 +9,7 @@ import java.util.Locale;
  * Corrector tests.
  * @author Jiri Vysoky
  */
-public class CorrectorTest {
+public class CorrectorIntegrationTest {
 
     @Test
     public void testCorrect() {
