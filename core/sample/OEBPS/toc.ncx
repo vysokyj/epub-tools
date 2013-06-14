@@ -23,7 +23,7 @@
         <navLabel>
           <text>Tři marodi - Čím strádají George a Harris - Oběť jednoho sta a sedmi fatálních nemocí - Užitečný recept - Léky na jaterní neduhy u dětí - Jsme zajedno, že jsme přepracováni a že si potřebujeme odpočinout - Týden nad vzdouvající se hlubinou? - George navrhuje řeku - Montmorency vznáší námitku - Původní návrh je prosazen většinou tří hlasů proti jednomu.</text>
         </navLabel>
-        <content src="ch01.xhtml#toc-2" />
+        <content src="test.xhtml#toc-2" />
       </navPoint>
     </navPoint>
   </navMap>
