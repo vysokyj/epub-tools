@@ -8,22 +8,46 @@
     <meta name="dtb:maxPageNumber" content="0" />
   </head>
   <docTitle>
-    <text>Tři muži ve člunu</text>
+    <text>Test ePUB</text>
   </docTitle>
   <docAuthor>
-    <text>Jerome, Jerome Klapka</text>
+    <text>Tester, </text>
   </docAuthor>
   <navMap>
     <navPoint id="navPoint-1" playOrder="1" class="chapter">
       <navLabel>
-        <text>Kapitola 1</text>
+        <text>Nějaká sekce 1</text>
       </navLabel>
       <content src="test.xhtml#toc-1" />
       <navPoint id="navPoint-2" playOrder="2" class="chapter">
         <navLabel>
-          <text>Tři marodi - Čím strádají George a Harris - Oběť jednoho sta a sedmi fatálních nemocí - Užitečný recept - Léky na jaterní neduhy u dětí - Jsme zajedno, že jsme přepracováni a že si potřebujeme odpočinout - Týden nad vzdouvající se hlubinou? - George navrhuje řeku - Montmorency vznáší námitku - Původní návrh je prosazen většinou tří hlasů proti jednomu.</text>
+          <text>Nějaká podsekce 1</text>
         </navLabel>
         <content src="test.xhtml#toc-2" />
+      </navPoint>
+      <navPoint id="navPoint-3" playOrder="3" class="chapter">
+        <navLabel>
+          <text>Nějaká podsekce 2</text>
+        </navLabel>
+        <content src="test.xhtml#toc-3" />
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-4" playOrder="4" class="chapter">
+      <navLabel>
+        <text>Nějaká sekce 2</text>
+      </navLabel>
+      <content src="test.xhtml#toc-4" />
+      <navPoint id="navPoint-5" playOrder="5" class="chapter">
+        <navLabel>
+          <text>Nějaká podsekce 3</text>
+        </navLabel>
+        <content src="test.xhtml#toc-5" />
+      </navPoint>
+      <navPoint id="navPoint-6" playOrder="6" class="chapter">
+        <navLabel>
+          <text>Nějaká podsekce 4</text>
+        </navLabel>
+        <content src="test.xhtml#toc-6" />
       </navPoint>
     </navPoint>
   </navMap>
