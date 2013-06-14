@@ -59,9 +59,11 @@ public class EpubCorrector {
             if (node.getNodeType() == Node.TEXT_NODE) {
                 Text text = (Text) node;
                 String is = text.getData();
-                if (!is.trim().replaceAll("\\n", "").isEmpty()) logger.info("IS: " + is);
-                //String os = replacer.replace(is);
-                //if (!is.equals(os)) text.setData(os);
+                String os = replacer.replace(is);
+                if (!is.equals(os)) {
+                    logger.info(is + " -> " + os);
+                    text.setData(os);
+                }
             }
         }
         // recursion

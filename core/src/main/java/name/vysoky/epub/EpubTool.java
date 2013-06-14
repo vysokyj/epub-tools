@@ -60,9 +60,10 @@ public class EpubTool {
 
     private void initFactories() throws ParserConfigurationException, TransformerConfigurationException {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        //documentBuilderFactory.setValidating(false);
-        //documentBuilderFactory.setNamespaceAware(false);
-        //documentBuilderFactory.setXIncludeAware(false);
+        //documentBuilderFactory.setValidating(true);
+        //documentBuilderFactory.setNamespaceAware(true);
+        //documentBuilderFactory.setXIncludeAware(true);
+        documentBuilderFactory.setExpandEntityReferences(false);
         documentBuilder = documentBuilderFactory.newDocumentBuilder();
         documentBuilder.setEntityResolver(new EpubEntityResolver());
 
