@@ -68,7 +68,7 @@ public class EpubTool {
         documentBuilderFactory.setValidating(true);
         documentBuilderFactory.setNamespaceAware(false);
         //documentBuilderFactory.setXIncludeAware(true);
-        documentBuilderFactory.setExpandEntityReferences(false);
+        documentBuilderFactory.setExpandEntityReferences(false); // it true removes &nbqp; and others !!
         xhtmlBuilder = documentBuilderFactory.newDocumentBuilder();
         xhtmlBuilder.setEntityResolver(new EpubEntityResolver());
         xhtmlBuilder.setErrorHandler( new EpubErrorHandler());
@@ -76,7 +76,7 @@ public class EpubTool {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         xhtmlTransformer = transformerFactory.newTransformer();
         xhtmlTransformer.setErrorListener(new EpubErrorListener());
-        xhtmlTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        xhtmlTransformer.setOutputProperty(OutputKeys.INDENT, "no");
         xhtmlTransformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
         xhtmlTransformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         xhtmlTransformer.setOutputProperty(OutputKeys.STANDALONE, "no");
@@ -104,7 +104,14 @@ public class EpubTool {
             document.setXmlStandalone(false);
             File file = convertResourceToFile(resource);
             logger.info("Writing document to file: " + file);
-            xhtmlTransformer.transform(new DOMSource(document), new StreamResult(file));
+            //xhtmlTransformer.transform(new DOMSource(document), new StreamResult(file));
+            StringWriter stringWriter = new StringWriter();
+            xhtmlTransformer.transform(new DOMSource(document), new StreamResult(stringWriter));
+            String string = stringWriter.getBuffer().toString();
+            string = string.replace(Entity.getString("&nbsp;"), "&nbsp;");
+            string = string.replace(" version=\"-//W3C//DTD XHTML 1.1//EN\"", "");
+            string = string.replace(" profile=\"\"", "");
+            FileUtils.write(file, string);
         } catch (Exception e) {
             logger.error("Unable write document!", e);
         }
