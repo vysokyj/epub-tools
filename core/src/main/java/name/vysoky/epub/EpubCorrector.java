@@ -34,7 +34,7 @@ public class EpubCorrector {
         for (SpineReference spineReference : spine.getSpineReferences()) {
             Resource resource = spineReference.getResource();
             Document document = processPart(resource);
-            epubTool.writeDocument(resource, document);
+            epubTool.writeXhtmlDocument(resource, document);
         }
     }
 

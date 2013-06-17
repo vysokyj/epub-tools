@@ -36,7 +36,7 @@ public class EpubTOCGenerator {
         for (SpineReference spineReference : spine.getSpineReferences()) {
             Resource resource = spineReference.getResource();
             Document document = processPart(resource);
-            epubTool.writeDocument(resource, document);
+            epubTool.writeXhtmlDocument(resource, document);
         }
         for (HeadingElement headingElement : buffer.getProcessed()) {
             TOCReference reference = generateToc(headingElement);
