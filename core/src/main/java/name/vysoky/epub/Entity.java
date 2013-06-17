@@ -12,11 +12,12 @@ public class Entity {
     private String name;
     private char character;
 
-    private static Map<String, Character> nameHash;
-    private static Map<Character, String> charHash;
+    private static Entity[] entities;
+    private static Map<String, Entity> nameHash;
+    private static Map<Character, Entity> charHash;
 
     static {
-        Entity[] entities = new Entity[] {
+        entities = new Entity[] {
             new Entity("&nbsp;", '\u00A0'),
             new Entity("&iexcl;", '\u00A1'),
             new Entity("&cent;", '\u00A2'),
@@ -272,11 +273,11 @@ public class Entity {
             new Entity("&diams;", '\u2666')
         };
 
-        nameHash = new HashMap<String, Character>(entities.length);
-        charHash = new HashMap<Character, String>(entities.length);
+        nameHash = new HashMap<String, Entity>(entities.length);
+        charHash = new HashMap<Character, Entity>(entities.length);
         for (Entity entity : entities) {
-            nameHash.put(entity.getName(), entity.getCharacter());
-            charHash.put(entity.getCharacter(), entity.getName());
+            nameHash.put(entity.getName(), entity);
+            charHash.put(entity.getCharacter(), entity);
         }
 
     }
@@ -287,8 +288,8 @@ public class Entity {
      * @return character
      * @throws IllegalArgumentException exception thrown when entity name not e
      */
-    public static char getChar(String entityName) throws IllegalArgumentException {
-        if (nameHash.containsKey(entityName)) return nameHash.get(entityName);
+    public static char toCharacter(String entityName) throws IllegalArgumentException {
+        if (nameHash.containsKey(entityName)) return nameHash.get(entityName).getCharacter();
         else throw new IllegalArgumentException("No such name: \"" + entityName + "\"");
     }
 
@@ -298,15 +299,26 @@ public class Entity {
      * @return one letter string
      * @throws IllegalArgumentException exception thrown when entity name not exist
      */
-    public static String getString(String entityName) throws IllegalArgumentException {
-        char[] chars = new char[1];
-        chars[0] = getChar(entityName);
-        return new String(chars);
+    public static String toCharacterAsString(String entityName) throws IllegalArgumentException {
+        if (nameHash.containsKey(entityName)) return nameHash.get(entityName).getCharacterAsString();
+        else throw new IllegalArgumentException("No such name: \"" + entityName + "\"");
     }
 
-    public static String getName(char character) throws IllegalArgumentException {
-        if (charHash.containsKey(character)) return charHash.get(character);
+    public static String toEntityName(char character) throws IllegalArgumentException {
+        if (charHash.containsKey(character)) return charHash.get(character).getName();
         else throw new IllegalArgumentException("No such char of name: \"" + character + "\"");
+    }
+
+    public String convertEntitiesToChars(String string) {
+        for (Entity entity : entities)
+            string = string.replace(entity.getName(), entity.getCharacterAsString());
+        return string;
+    }
+
+    public String convertCharsToEntities(String string) {
+        for (Entity entity : entities)
+            string = string.replace(entity.getCharacterAsString(), entity.getName());
+        return string;
     }
 
     public Entity(String entity, char character) {
@@ -320,5 +332,11 @@ public class Entity {
 
     public char getCharacter() {
         return character;
+    }
+
+    public String getCharacterAsString() {
+        char[] chars = new char[1];
+        chars[0] = character;
+        return new String(chars);
     }
 }

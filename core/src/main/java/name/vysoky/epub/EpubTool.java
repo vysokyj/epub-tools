@@ -108,7 +108,7 @@ public class EpubTool {
             StringWriter stringWriter = new StringWriter();
             xhtmlTransformer.transform(new DOMSource(document), new StreamResult(stringWriter));
             String string = stringWriter.getBuffer().toString();
-            string = string.replace(Entity.getString("&nbsp;"), "&nbsp;");
+            string = string.replace(Entity.toCharacterAsString("&nbsp;"), "&nbsp;");
             string = string.replace(" version=\"-//W3C//DTD XHTML 1.1//EN\"", "");
             string = string.replace(" profile=\"\"", "");
             FileUtils.write(file, string);
