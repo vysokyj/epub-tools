@@ -34,8 +34,8 @@ public class EpubTool {
 
     final Logger logger = LoggerFactory.getLogger(EpubTool.class);
 
-    private DocumentBuilder documentBuilder;
-    private Transformer transformer;
+    private DocumentBuilder xhtmlBuilder;
+    private Transformer xhtmlTransformer;
 
     private File directory;
     private Book book;
@@ -51,8 +51,12 @@ public class EpubTool {
         initBook();
     }
 
-    public DocumentBuilder getDocumentBuilder() {
-        return documentBuilder;
+    /**
+     * Accessor for XHTML document builder.
+     * @return document builder
+     */
+    public DocumentBuilder getXhtmlBuilder() {
+        return xhtmlBuilder;
     }
 
     public Book getBook() {
@@ -65,16 +69,18 @@ public class EpubTool {
         documentBuilderFactory.setNamespaceAware(false);
         //documentBuilderFactory.setXIncludeAware(true);
         documentBuilderFactory.setExpandEntityReferences(false);
-        documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        documentBuilder.setEntityResolver(new EpubEntityResolver());
+        xhtmlBuilder = documentBuilderFactory.newDocumentBuilder();
+        xhtmlBuilder.setEntityResolver(new EpubEntityResolver());
+        xhtmlBuilder.setErrorHandler( new EpubErrorHandler());
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-        transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "-//W3C//DTD XHTML 1.1//EN");
-        transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd");
+        xhtmlTransformer = transformerFactory.newTransformer();
+        xhtmlTransformer.setErrorListener(new EpubErrorListener());
+        xhtmlTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        xhtmlTransformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        xhtmlTransformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+        xhtmlTransformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "-//W3C//DTD XHTML 1.1//EN");
+        xhtmlTransformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd");
     }
 
     private void initBook() throws IOException {
@@ -87,16 +93,16 @@ public class EpubTool {
 
     public Document readDocument(Resource resource) throws IOException, SAXException {
         //TODO: Loading from zip is not functional?!
-        //return epubTool.getDocumentBuilder().parse(resource.getInputStream());
+        //return epubTool.getXhtmlBuilder().parse(resource.getInputStream());
         // bad fix - load from original file
-        return getDocumentBuilder().parse(convertResourceToFile(resource));
+        return getXhtmlBuilder().parse(convertResourceToFile(resource));
     }
 
     public void writeDocument(Resource resource, Document document) {
         try {
             File file = convertResourceToFile(resource);
             logger.info("Writing document to file: " + file);
-            transformer.transform(new DOMSource(document), new StreamResult(file));
+            xhtmlTransformer.transform(new DOMSource(document), new StreamResult(file));
         } catch (Exception e) {
             logger.error("Unable write document!", e);
         }
