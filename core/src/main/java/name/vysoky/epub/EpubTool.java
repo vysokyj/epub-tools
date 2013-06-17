@@ -17,6 +17,7 @@ import javax.management.modelmbean.XMLParseException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
@@ -60,8 +61,8 @@ public class EpubTool {
 
     private void initFactories() throws ParserConfigurationException, TransformerConfigurationException {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        //documentBuilderFactory.setValidating(true);
-        //documentBuilderFactory.setNamespaceAware(true);
+        documentBuilderFactory.setValidating(true);
+        documentBuilderFactory.setNamespaceAware(false);
         //documentBuilderFactory.setXIncludeAware(true);
         documentBuilderFactory.setExpandEntityReferences(false);
         documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -69,6 +70,11 @@ public class EpubTool {
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+        transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "-//W3C//DTD XHTML 1.1//EN");
+        transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd");
     }
 
     private void initBook() throws IOException {
