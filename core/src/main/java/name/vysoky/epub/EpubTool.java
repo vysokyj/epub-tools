@@ -79,7 +79,7 @@ public class EpubTool {
         xhtmlTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
         xhtmlTransformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
         xhtmlTransformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        xhtmlTransformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+        xhtmlTransformer.setOutputProperty(OutputKeys.STANDALONE, "no");
         xhtmlTransformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "-//W3C//DTD XHTML 1.1//EN");
         xhtmlTransformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd");
     }
@@ -101,7 +101,7 @@ public class EpubTool {
 
     public void writeXhtmlDocument(Resource resource, Document document) {
         try {
-            document.setXmlStandalone(true);
+            document.setXmlStandalone(false);
             File file = convertResourceToFile(resource);
             logger.info("Writing document to file: " + file);
             xhtmlTransformer.transform(new DOMSource(document), new StreamResult(file));
