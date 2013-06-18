@@ -103,7 +103,6 @@ public class EpubTool {
         try {
             document.setXmlStandalone(false);
             File file = convertResourceToFile(resource);
-            logger.info("Writing document to file: " + file);
             //xhtmlTransformer.transform(new DOMSource(document), new StreamResult(file));
             StringWriter stringWriter = new StringWriter();
             xhtmlTransformer.transform(new DOMSource(document), new StreamResult(stringWriter));
@@ -112,18 +111,19 @@ public class EpubTool {
             string = string.replace(" version=\"-//W3C//DTD XHTML 1.1//EN\"", "");
             string = string.replace(" profile=\"\"", "");
             FileUtils.write(file, string);
+            logger.info("Successfully saved file: " + file);
         } catch (Exception e) {
-            logger.error("Unable write document!", e);
+            logger.error("Unable to save file!", e);
         }
     }
 
         public void writeResourceAsString(Resource resource, String string) {
         try {
-            File outputFile = convertResourceToFile(resource);
-            logger.info("Writing string to file: " + outputFile);
-            FileUtils.write(outputFile, string);
+            File file = convertResourceToFile(resource);
+            FileUtils.write(file, string);
+            logger.info("Successfully saved file: " + file);
         } catch (Exception e) {
-            logger.error("Unable write document!", e);
+            logger.error("Unable to save file!", e);
         }
     }
 

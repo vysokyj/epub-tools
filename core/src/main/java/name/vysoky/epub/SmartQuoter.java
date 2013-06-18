@@ -101,21 +101,21 @@ public class SmartQuoter implements TextProcessor {
         }
         
         if (lastDoubleQuoteIsLeading && isProbablyLeadingDoubleQuote(input, index)) {
-            logger.warn("Probably missing trailing quote before " + index);
+            logger.warn("Missing trailing quote before [" + index + "]: " + new String(input));
             input[index] = leadingDoubleQuote;
             lastDoubleQuoteIsLeading = true;
             return;
         }
 
         if (!lastDoubleQuoteIsLeading && isProbablyTrailingDoubleQuote(input, index)) {
-            logger.warn("Probably missing leading quote before " + index);
-            input[index] = leadingDoubleQuote;
-            lastDoubleQuoteIsLeading = true;
+            logger.warn("Missing leading quote before [" + index + "]: " + new String(input));
+            input[index] = trailingDoubleQuote;
+            lastDoubleQuoteIsLeading = false;
             return;
         }
         
         if (!isProbablyLeadingDoubleQuote(input, index) && !isProbablyTrailingDoubleQuote(input, index)) {
-            logger.warn("Unknown quote using last matching " + index);
+            logger.warn("Unsure quote type at " + index);
             input[index] = lastDoubleQuoteIsLeading ? trailingDoubleQuote : leadingDoubleQuote;
             lastDoubleQuoteIsLeading = !lastDoubleQuoteIsLeading;
         }            
@@ -135,21 +135,21 @@ public class SmartQuoter implements TextProcessor {
         }
 
         if (lastSingleQuoteIsLeading && isProbablyLeadingSingleQuote(input, index)) {
-            logger.warn("Probably missing trailing quote before " + index);
+            logger.warn("Missing trailing quote before [" + index + "]: " + new String(input));
             input[index] = leadingSingleQuote;
             lastSingleQuoteIsLeading = true;
             return;
         }
 
         if (!lastSingleQuoteIsLeading && isProbablyTrailingSingleQuote(input, index)) {
-            logger.warn("Probably missing leading quote before " + index);
-            input[index] = leadingSingleQuote;
-            lastSingleQuoteIsLeading = true;
+            logger.warn("Missing leading quote before [" + index + "]: " + new String(input));
+            input[index] = trailingDoubleQuote;
+            lastSingleQuoteIsLeading = false;
             return;
         }
 
         if (!isProbablyLeadingSingleQuote(input, index) && !isProbablyTrailingSingleQuote(input, index)) {
-            logger.warn("Unknown quote using last matching " + index);
+            logger.warn("Unsure quote type at [" + index + "]: " + new String(input));
             input[index] = lastSingleQuoteIsLeading ? trailingSingleQuote : leadingSingleQuote;
             lastSingleQuoteIsLeading = !lastSingleQuoteIsLeading;
         }
