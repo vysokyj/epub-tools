@@ -33,9 +33,9 @@ import java.util.regex.Pattern;
  * Parse regular expression used for replacing texts.
  */
 @SuppressWarnings("unused")
-public class ReplacingExpression {
+public class Replacement {
 
-    final Logger logger = LoggerFactory.getLogger(ReplacingExpression.class);
+    final Logger logger = LoggerFactory.getLogger(Replacement.class);
 
     private String comment;
     private String expression;
@@ -43,7 +43,7 @@ public class ReplacingExpression {
     private String replacement;
 
 
-    public ReplacingExpression(String comment, String expression) throws IllegalArgumentException {
+    public Replacement(String comment, String expression) throws IllegalArgumentException {
         this.comment = comment;
         this.expression = expression;
         parseExpression();

@@ -8,23 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class LocaleLoader implements Loader {
+public class LocaleReplacementProvider implements ReplacementProvider {
 
     public static final String RESOURCE_ENCODING = "UTF-8";
     public static final String RESOURCE_DIRECTORY = "/";
     public static final String RESOURCE_EXTENSION = ".re";
 
     private String preparedComment;
-    private List<ReplacingExpression> replacingExpressions = new ArrayList<ReplacingExpression>();
+    private List<Replacement> replacingExpressions = new ArrayList<Replacement>();
     private Locale locale;
 
-    public LocaleLoader(Locale locale) {
+    public LocaleReplacementProvider(Locale locale) throws IOException {
         this.locale = locale;
+        parserResource();
     }
 
     @Override
-    public List<ReplacingExpression> getReplacingExpressions() throws IOException {
-        if (replacingExpressions == null) parserResource();
+    public List<Replacement> getReplacements() {
         return replacingExpressions;
     }
 
@@ -51,7 +51,7 @@ public class LocaleLoader implements Loader {
         if (line.trim().startsWith("#")) {
             preparedComment = line;
         } else {
-            ReplacingExpression ex = new ReplacingExpression(preparedComment, line);
+            Replacement ex = new Replacement(preparedComment, line);
             replacingExpressions.add(ex);
             preparedComment = null;
         }

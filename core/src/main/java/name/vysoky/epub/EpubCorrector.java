@@ -1,15 +1,14 @@
 package name.vysoky.epub;
 
-import name.vysoky.re.LocaleLoader;
-import name.vysoky.re.Replacer;
+import name.vysoky.re.LocaleReplacementProvider;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.Spine;
 import nl.siegmann.epublib.domain.SpineReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.*;
 
+import java.io.IOException;
 import java.util.Locale;
 
 /**
@@ -21,22 +20,33 @@ public class EpubCorrector {
     final Logger logger = LoggerFactory.getLogger(EpubCorrector.class);
 
     private EpubTool epubTool;
-    private Replacer replacer;
+    private XhtmlProcessor processor;
 
     public EpubCorrector(EpubTool epubTool, Locale locale) {
         this.epubTool = epubTool;
-        this.replacer = new Replacer(new LocaleLoader(locale));
+        try {
+            this.processor = new XhtmlProcessor(new TextReplacer(new LocaleReplacementProvider(locale)));
+            logger.debug("Prepared text processor.");
+        } catch (Exception e) {
+            logger.error("Unable to prepare XHTML processor!", e);
+        }
     }
 
-    public void correct() {
+    public void correct() throws IOException {
         Book book = epubTool.getBook();
         Spine spine = book.getSpine();
         for (SpineReference spineReference : spine.getSpineReferences()) {
             Resource resource = spineReference.getResource();
-            Document document = processPart(resource);
-            epubTool.writeXhtmlDocument(resource, document);
+            String is = new String(resource.getData(), resource.getInputEncoding());
+            String os = processor.process(is);
+            epubTool.writeResourceAsString(resource, os);
         }
     }
+
+
+    /* Old code using DOM. */
+
+    /*
 
     private Document processPart(Resource resource) {
         try {
@@ -51,6 +61,7 @@ public class EpubCorrector {
         }
     }
 
+
     private void processElement(Element element) {
         NodeList nodeList = element.getChildNodes();
         // process texts
@@ -59,7 +70,7 @@ public class EpubCorrector {
             if (node.getNodeType() == Node.TEXT_NODE) {
                 Text text = (Text) node;
                 String is = text.getData();
-                String os = replacer.replace(is);
+                String os = processor.process(is);
                 if (!is.equals(os)) {
                     logger.info(is + " -> " + os);
                     text.setData(os);
@@ -77,4 +88,5 @@ public class EpubCorrector {
         }
     }
 
+    */
 }

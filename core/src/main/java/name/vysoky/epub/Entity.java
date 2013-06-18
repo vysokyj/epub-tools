@@ -309,13 +309,13 @@ public class Entity {
         else throw new IllegalArgumentException("No such char of name: \"" + character + "\"");
     }
 
-    public String convertEntitiesToChars(String string) {
+    public static String convertEntitiesToChars(String string) {
         for (Entity entity : entities)
             string = string.replace(entity.getName(), entity.getCharacterAsString());
         return string;
     }
 
-    public String convertCharsToEntities(String string) {
+    public static String convertCharsToEntities(String string) {
         for (Entity entity : entities)
             string = string.replace(entity.getCharacterAsString(), entity.getName());
         return string;

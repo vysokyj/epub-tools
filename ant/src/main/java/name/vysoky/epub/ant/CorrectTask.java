@@ -63,7 +63,7 @@ public class CorrectTask extends Task {
             EpubCorrector corrector = new EpubCorrector(epubTool, locale);
             corrector.correct();
         } catch (Exception e) {
-            logger.error("Unable to replace epub!", e);
+            logger.error("Unable to process epub!", e);
         }
     }
 }

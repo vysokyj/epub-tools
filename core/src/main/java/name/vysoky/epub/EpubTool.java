@@ -117,6 +117,16 @@ public class EpubTool {
         }
     }
 
+        public void writeResourceAsString(Resource resource, String string) {
+        try {
+            File outputFile = convertResourceToFile(resource);
+            logger.info("Writing string to file: " + outputFile);
+            FileUtils.write(outputFile, string);
+        } catch (Exception e) {
+            logger.error("Unable write document!", e);
+        }
+    }
+
 //    public void writeFile(Resource resource, File inputFile) {
 //        try {
 //            File outputFile = convertResourceToFile(resource);

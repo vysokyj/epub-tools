@@ -19,29 +19,24 @@
  * USA
  */
 
-package name.vysoky.re;
+package name.vysoky.epub;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import name.vysoky.re.Replacement;
+import name.vysoky.re.ReplacementProvider;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
- * Modify string using sequence of replacing regular expressions.
+ * Modify string using sequence of replacing expressions.
  */
 @SuppressWarnings("unused")
-public class Replacer {
+public class TextReplacer implements TextProcessor {
 
-    final Logger logger = LoggerFactory.getLogger(Replacer.class);
+    private List<Replacement> replacements;
 
-    private List<ReplacingExpression> replacingExpressions;
-
-    public Replacer(Loader loader) {
-        try {
-            replacingExpressions = loader.getReplacingExpressions();
-        } catch (Exception e) {
-            logger.error("Unable to load replacing expressions.", e);
-        }
+    public TextReplacer(ReplacementProvider loader) throws IOException {
+        replacements = loader.getReplacements();
     }
 
     /**
@@ -49,8 +44,8 @@ public class Replacer {
      * @param string input string
      * @return modified output string
      */
-    public String replace(String string) {
-        for (ReplacingExpression e : replacingExpressions) string = e.apply(string);
+    public String process(String string) {
+        for (Replacement replacement : replacements) string = replacement.apply(string);
         return string;
     }
 }
