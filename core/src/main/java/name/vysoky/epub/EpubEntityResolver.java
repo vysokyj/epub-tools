@@ -20,9 +20,13 @@ public class EpubEntityResolver implements EntityResolver {
     @Override
     public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
         logger.info("Resolve entity - publicId: " + publicId + ", systemId: " + systemId);
-        String resource = "/DTD/" + systemId.substring(systemId.lastIndexOf('/'));
+        String resource = "/epubdtd/" + systemId.substring(systemId.lastIndexOf('/'));
         InputStream stream = getClass().getResourceAsStream(resource);
-        if (stream != null) return new InputSource(stream);
+        if (stream != null) {
+            return new InputSource(stream);
+        } else {
+            logger.warn("Stream is null!");
+        }
         // default - null?
         return new InputSource(new java.io.StringReader(""));
     }

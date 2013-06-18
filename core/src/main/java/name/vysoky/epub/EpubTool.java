@@ -71,7 +71,7 @@ public class EpubTool {
         documentBuilderFactory.setExpandEntityReferences(false); // it true removes &nbqp; and others !!
         xhtmlBuilder = documentBuilderFactory.newDocumentBuilder();
         xhtmlBuilder.setEntityResolver(new EpubEntityResolver());
-        xhtmlBuilder.setErrorHandler( new EpubErrorHandler());
+        xhtmlBuilder.setErrorHandler(new EpubErrorHandler());
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         xhtmlTransformer = transformerFactory.newTransformer();
