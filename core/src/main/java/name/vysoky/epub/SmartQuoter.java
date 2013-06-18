@@ -26,14 +26,14 @@ public class SmartQuoter implements TextProcessor {
     private boolean lastSingleQuoteIsLeading = false;
 
     private char leadingDoubleQuote = '"';
-    private char trailingDoubleQuote = '"';
     private char leadingSingleQuote = '\'';
+    private char trailingDoubleQuote = '"';
     private char trailingSingleQuote = '\'';
     
-    private final Pattern leadingDoubleQuotePattern;
-    private final Pattern trailingDoubleQuotePattern;
-    private final Pattern leadingSingleQuotePattern;
-    private final Pattern trailingSingleQuotePattern;
+    private final Pattern leadingDoubleQuotePattern  = Pattern.compile("[\\s\\n]\"[^\\s]");
+    private final Pattern leadingSingleQuotePattern = Pattern.compile("[\\s\\n]'[^\\s]");
+    private final Pattern trailingDoubleQuotePattern = Pattern.compile("[^\\s]\"[\\s\\n.,;?!]");
+    private final Pattern trailingSingleQuotePattern = Pattern.compile("[^\\s]'[\\s\\n.,;?!]");
     
     public SmartQuoter(char leadingDoubleQuote, char trailingDoubleQuote,
                        char leadingSingleQuote, char trailingSingleQuote) {
@@ -41,27 +41,24 @@ public class SmartQuoter implements TextProcessor {
         this.trailingDoubleQuote = trailingDoubleQuote;
         this.leadingSingleQuote = leadingSingleQuote;
         this.trailingSingleQuote = trailingSingleQuote;
-        this.leadingDoubleQuotePattern = Pattern.compile("([\\s:;])?" + leadingDoubleQuote + "([^\\s])?"); 
-        this.leadingSingleQuotePattern = Pattern.compile("([\\s:;])?" + leadingSingleQuote + "([^\\s])?");
-        this.trailingDoubleQuotePattern = Pattern.compile("[^\\s]" + leadingDoubleQuote + "([\\s.,;?!])?");
-        this.trailingSingleQuotePattern = Pattern.compile("[^\\s]" + leadingSingleQuote + "([\\s.,;?!])?");
     }
 
     @Override
     public String process(String input) {
+        if (input.replace("\n", "").trim().isEmpty()) return input; // skip empty lines
         input = convertToDefaultQuotes(input);
         char[] chars = input.toCharArray();
         processChars(chars);
         return new String(chars);
     }    
 
-    private String convertToDefaultQuotes(String input) {
+    String convertToDefaultQuotes(String input) {
         for (char c : SINGLE_QUOTES) input = input.replace(c, DEFAULT_SINGLE_QUOTE);
         for (char c : DOUBLE_QUOTES) input = input.replace(c, DEFAULT_DOUBLE_QUOTE);
         return input;
     }
     
-    private String getNearChars(char[] input, int index) {
+    String getNearChars(char[] input, int index) {
         char[] chars = new char[3];
         chars[0] = ((index - 1) >= 0) ? input[index - 1] : '\n';
         chars[1] = input[index];
@@ -69,23 +66,23 @@ public class SmartQuoter implements TextProcessor {
         return new String(chars);        
     }
     
-    private boolean isProbablyLeadingDoubleQuote(char[] input, int index) {
+    boolean isProbablyLeadingDoubleQuote(char[] input, int index) {
         Matcher matcher = leadingDoubleQuotePattern.matcher(getNearChars(input, index));
         return matcher.matches();
     }
 
-    private boolean isProbablyLeadingSingleQuote(char[] input, int index) {
+    boolean isProbablyLeadingSingleQuote(char[] input, int index) {
         Matcher matcher = leadingSingleQuotePattern.matcher(getNearChars(input, index));
         return matcher.matches();
     }
 
 
-    private boolean isProbablyTrailingDoubleQuote(char[] input, int index) {
+    boolean isProbablyTrailingDoubleQuote(char[] input, int index) {
         Matcher matcher = trailingDoubleQuotePattern.matcher(getNearChars(input, index));
         return matcher.matches();
     }
 
-    private boolean isProbablyTrailingSingleQuote(char[] input, int index) {
+    boolean isProbablyTrailingSingleQuote(char[] input, int index) {
         Matcher matcher = trailingSingleQuotePattern.matcher(getNearChars(input, index));
         return matcher.matches();
     }
@@ -117,7 +114,7 @@ public class SmartQuoter implements TextProcessor {
             return;
         }
         
-        if (!isProbablyLeadingDoubleQuote(input, index) && isProbablyTrailingDoubleQuote(input, index)) {
+        if (!isProbablyLeadingDoubleQuote(input, index) && !isProbablyTrailingDoubleQuote(input, index)) {
             logger.warn("Unknown quote using last matching " + index);
             input[index] = lastDoubleQuoteIsLeading ? trailingDoubleQuote : leadingDoubleQuote;
             lastDoubleQuoteIsLeading = !lastDoubleQuoteIsLeading;
@@ -151,7 +148,7 @@ public class SmartQuoter implements TextProcessor {
             return;
         }
 
-        if (!isProbablyLeadingSingleQuote(input, index) && isProbablyTrailingSingleQuote(input, index)) {
+        if (!isProbablyLeadingSingleQuote(input, index) && !isProbablyTrailingSingleQuote(input, index)) {
             logger.warn("Unknown quote using last matching " + index);
             input[index] = lastSingleQuoteIsLeading ? trailingSingleQuote : leadingSingleQuote;
             lastSingleQuoteIsLeading = !lastSingleQuoteIsLeading;
