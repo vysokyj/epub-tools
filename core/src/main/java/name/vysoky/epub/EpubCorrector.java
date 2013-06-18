@@ -20,12 +20,14 @@ public class EpubCorrector {
     final Logger logger = LoggerFactory.getLogger(EpubCorrector.class);
 
     private EpubTool epubTool;
-    private XhtmlProcessor processor;
+    private XhtmlProcessor replacingProcessor;
+    private XhtmlProcessor quotingProcessor;
 
     public EpubCorrector(EpubTool epubTool, Locale locale) {
         this.epubTool = epubTool;
         try {
-            this.processor = new XhtmlProcessor(new TextReplacer(new LocaleReplacementProvider(locale)));
+            this.replacingProcessor = new XhtmlProcessor(new TextReplacer(new LocaleReplacementProvider(locale)));
+            this.quotingProcessor = new XhtmlProcessor(new SmartQuoter('\u201E','\u201C','\u201A','\u2018'));
             logger.debug("Prepared text processor.");
         } catch (Exception e) {
             logger.error("Unable to prepare XHTML processor!", e);
@@ -37,9 +39,10 @@ public class EpubCorrector {
         Spine spine = book.getSpine();
         for (SpineReference spineReference : spine.getSpineReferences()) {
             Resource resource = spineReference.getResource();
-            String is = new String(resource.getData(), resource.getInputEncoding());
-            String os = processor.process(is);
-            epubTool.writeResourceAsString(resource, os);
+            String s = new String(resource.getData(), resource.getInputEncoding());
+            s = replacingProcessor.process(s);
+            s = quotingProcessor.process(s);
+            epubTool.writeResourceAsString(resource, s);
         }
     }
 
@@ -70,7 +73,7 @@ public class EpubCorrector {
             if (node.getNodeType() == Node.TEXT_NODE) {
                 Text text = (Text) node;
                 String is = text.getData();
-                String os = processor.process(is);
+                String os = replacingProcessor.process(is);
                 if (!is.equals(os)) {
                     logger.info(is + " -> " + os);
                     text.setData(os);

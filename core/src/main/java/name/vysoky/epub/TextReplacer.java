@@ -50,9 +50,8 @@ public class TextReplacer implements TextProcessor {
         input = StringEscapeUtils.unescapeHtml(input); // unescape before
         //input = StringEscapeUtils.escapeHtml(input);
         for (Replacement replacement : replacements) input = replacement.apply(input);
-        input = StringEscapeUtils.unescapeHtml(input); // unescape after
+        input = StringEscapeUtils.unescapeHtml(input); // unescape after for sure
         input = input.replace(" ", "&nbsp;"); // fix non breaking space - always escaped
-        input = input.replace("–", "&nbsp;"); // fix non breaking space - always escaped
         return input;
     }
 }
