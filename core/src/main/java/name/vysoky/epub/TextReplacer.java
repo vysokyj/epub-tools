@@ -23,6 +23,7 @@ package name.vysoky.epub;
 
 import name.vysoky.re.Replacement;
 import name.vysoky.re.ReplacementProvider;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,11 +42,16 @@ public class TextReplacer implements TextProcessor {
 
     /**
      * Modify string using regular expression.
-     * @param string input string
+     * @param input input string
      * @return modified output string
      */
-    public String process(String string) {
-        for (Replacement replacement : replacements) string = replacement.apply(string);
-        return string;
+    public String process(String input) {
+        if (input.replace("\n", "").trim().isEmpty()) return input; // skip empty lines
+        input = StringEscapeUtils.unescapeHtml(input); // unescape before
+        //input = StringEscapeUtils.escapeHtml(input);
+        for (Replacement replacement : replacements) input = replacement.apply(input);
+        input = StringEscapeUtils.unescapeHtml(input); // unescape after
+        input = input.replace(" ", "&nbsp;"); // fix non breaking space - always escaped
+        return input;
     }
 }

@@ -7,6 +7,7 @@ import java.util.Map;
  * Entity mapper.
  * @author Jiri Vysoky
  */
+@SuppressWarnings("unused")
 public class Entity {
 
     private String name;
@@ -309,6 +310,7 @@ public class Entity {
         else throw new IllegalArgumentException("No such char of name: \"" + character + "\"");
     }
 
+    @Deprecated //TODO: not working
     public static String convertEntitiesToChars(String string) {
         for (Entity entity : entities)
             string = string.replace(entity.getName(), entity.getCharacterAsString());
