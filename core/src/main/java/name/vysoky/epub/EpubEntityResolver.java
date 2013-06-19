@@ -1,34 +1,32 @@
 package name.vysoky.epub;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * If this is not set to XML reader, than XHTML DOCTYPE cause parser freeze!
  * @author Jiri Vysoky
  */
 public class EpubEntityResolver implements EntityResolver {
-
-    final Logger logger = LoggerFactory.getLogger(EpubEntityResolver.class);
+    private String previousLocation;
 
     @Override
     public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-        logger.info("Resolve entity - publicId: " + publicId + ", systemId: " + systemId);
-        String resource = "/epubdtd/" + systemId.substring(systemId.lastIndexOf('/'));
-        InputStream stream = getClass().getResourceAsStream(resource);
-        if (stream != null) {
-            return new InputSource(stream);
+        String resource;
+        if (systemId.startsWith("http:")) {
+            URL url = new URL(systemId);
+            resource = "dtd/" + url.getHost() + url.getPath();
+            previousLocation = resource.substring(0, resource.lastIndexOf('/'));
         } else {
-            logger.warn("Stream is null!");
+            resource = previousLocation + systemId.substring(systemId.lastIndexOf('/'));
         }
-        // default - null?
-        return new InputSource(new java.io.StringReader(""));
+        InputStream stream = EpubEntityResolver.class.getClassLoader().getResourceAsStream(resource);
+        if (stream == null) throw new IOException("Unable to open resource as stream! resource='" + resource + "'");
+        return new InputSource(stream);
     }
-
 }
