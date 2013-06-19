@@ -1,5 +1,6 @@
 package name.vysoky.epub;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,8 @@ public class SmartQuoter implements TextProcessor {
     private final Pattern trailingDoubleQuotePattern = Pattern.compile("[^\\s]\"[\\s\\n.,;?!]");
     private final Pattern trailingSingleQuotePattern = Pattern.compile("[^\\s]'[\\s\\n.,;?!]");
 
+    private int line = 1;
+
     public SmartQuoter(char leadingDoubleQuote, char trailingDoubleQuote,
                        char leadingSingleQuote, char trailingSingleQuote) {
         this.leadingDoubleQuote = leadingDoubleQuote;
@@ -45,6 +48,7 @@ public class SmartQuoter implements TextProcessor {
 
     @Override
     public String process(String input) {
+        line += StringUtils.countMatches(input, "\n");
         if (input.replace("\n", "").trim().isEmpty()) return input; // skip empty lines
         input = convertToDefaultQuotes(input);
         char[] chars = input.toCharArray();
@@ -86,7 +90,7 @@ public class SmartQuoter implements TextProcessor {
         Matcher matcher = trailingSingleQuotePattern.matcher(getNearChars(input, index));
         return matcher.matches();
     }
-    
+
     private void processDoubleQuote(char[] input, int index) {
         if (!lastDoubleQuoteIsLeading && isProbablyLeadingDoubleQuote(input, index)) {
             input[index] = leadingDoubleQuote;
@@ -101,21 +105,21 @@ public class SmartQuoter implements TextProcessor {
         }
         
         if (lastDoubleQuoteIsLeading && isProbablyLeadingDoubleQuote(input, index)) {
-            logger.warn("Missing trailing quote before [" + index + "]: " + new String(input));
+            logger.warn("Missing trailing quote [" + line + ":" + index + "]: " + new String(input));
             input[index] = leadingDoubleQuote;
             lastDoubleQuoteIsLeading = true;
             return;
         }
 
         if (!lastDoubleQuoteIsLeading && isProbablyTrailingDoubleQuote(input, index)) {
-            logger.warn("Missing leading quote before [" + index + "]: " + new String(input));
+            logger.warn("Missing leading quote [" + line + ":" + index + "]: " + new String(input));
             input[index] = trailingDoubleQuote;
             lastDoubleQuoteIsLeading = false;
             return;
         }
         
         if (!isProbablyLeadingDoubleQuote(input, index) && !isProbablyTrailingDoubleQuote(input, index)) {
-            logger.warn("Unsure quote type at " + index);
+            logger.warn("Unsure quote type [" + line + ":" + index + "]");
             input[index] = lastDoubleQuoteIsLeading ? trailingDoubleQuote : leadingDoubleQuote;
             lastDoubleQuoteIsLeading = !lastDoubleQuoteIsLeading;
         }            
@@ -135,21 +139,21 @@ public class SmartQuoter implements TextProcessor {
         }
 
         if (lastSingleQuoteIsLeading && isProbablyLeadingSingleQuote(input, index)) {
-            logger.warn("Missing trailing quote before [" + index + "]: " + new String(input));
+            logger.warn("Missing trailing quote [" + line + ":" + index + "]: " + new String(input));
             input[index] = leadingSingleQuote;
             lastSingleQuoteIsLeading = true;
             return;
         }
 
         if (!lastSingleQuoteIsLeading && isProbablyTrailingSingleQuote(input, index)) {
-            logger.warn("Missing leading quote before [" + index + "]: " + new String(input));
+            logger.warn("Missing leading quote [" + line + ":" + index + "]: " + new String(input));
             input[index] = trailingDoubleQuote;
             lastSingleQuoteIsLeading = false;
             return;
         }
 
         if (!isProbablyLeadingSingleQuote(input, index) && !isProbablyTrailingSingleQuote(input, index)) {
-            logger.warn("Unsure quote type at [" + index + "]: " + new String(input));
+            logger.warn("Unsure quote type [" + line + ":" + index + "]: " + new String(input));
             input[index] = lastSingleQuoteIsLeading ? trailingSingleQuote : leadingSingleQuote;
             lastSingleQuoteIsLeading = !lastSingleQuoteIsLeading;
         }
