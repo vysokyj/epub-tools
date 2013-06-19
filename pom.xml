@@ -11,6 +11,7 @@
     <modules>
         <module>core</module>
         <module>ant</module>
+        <module>cli</module>
     </modules>
 
     <name>ePUB Tools</name>
