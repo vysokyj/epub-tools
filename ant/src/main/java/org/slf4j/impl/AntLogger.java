@@ -282,27 +282,27 @@ public class AntLogger implements Logger {
 
     @Override
     public void warn(String msg) {
-        log(msg, Project.MSG_INFO, null);
+        log(msg, Project.MSG_WARN, null);
     }
 
     @Override
     public void warn(String format, Object arg) {
-        log(format, Project.MSG_INFO, null, arg);
+        log(format, Project.MSG_WARN, null, arg);
     }
 
     @Override
     public void warn(String format, Object[] argArray) {
-        log(format, Project.MSG_INFO, null, argArray);
+        log(format, Project.MSG_WARN, null, argArray);
     }
 
     @Override
     public void warn(String format, Object arg1, Object arg2) {
-        log(format, Project.MSG_INFO, null, arg1, arg2);
+        log(format, Project.MSG_WARN, null, arg1, arg2);
     }
 
     @Override
     public void warn(String msg, Throwable t) {
-        log(msg, Project.MSG_INFO, t);
+        log(msg, Project.MSG_WARN, t);
     }
 
     @Override
@@ -312,27 +312,27 @@ public class AntLogger implements Logger {
 
     @Override
     public void warn(Marker marker, String msg) {
-        log(msg, Project.MSG_INFO, null);
+        log(msg, Project.MSG_WARN, null);
     }
 
     @Override
     public void warn(Marker marker, String format, Object arg) {
-        log(format, Project.MSG_INFO, null, arg);
+        log(format, Project.MSG_WARN, null, arg);
     }
 
     @Override
     public void warn(Marker marker, String format, Object arg1, Object arg2) {
-        log(format, Project.MSG_INFO, null, arg1, arg2);
+        log(format, Project.MSG_WARN, null, arg1, arg2);
     }
 
     @Override
     public void warn(Marker marker, String format, Object[] argArray) {
-        log(format, Project.MSG_INFO, null, argArray);
+        log(format, Project.MSG_WARN, null, argArray);
     }
 
     @Override
     public void warn(Marker marker, String msg, Throwable t) {
-        log(msg, Project.MSG_INFO, t);
+        log(msg, Project.MSG_WARN, t);
     }
 
     @Override
