@@ -110,6 +110,10 @@ public class EpubTool {
             string = string.replace(Entity.toCharacterAsString("&nbsp;"), "&nbsp;");
             string = string.replace(" version=\"-//W3C//DTD XHTML 1.1//EN\"", "");
             string = string.replace(" profile=\"\"", "");
+            string = string.replace(" xml:space=\"preserve\"", "");
+            string = string.replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"", "");
+            string = string.replace("?>", "?>\n");
+            //string = string.replace("\n\n", "\n");
             FileUtils.write(file, string);
             logger.info("Successfully saved file: " + file);
         } catch (Exception e) {
