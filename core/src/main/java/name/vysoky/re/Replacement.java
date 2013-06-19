@@ -22,8 +22,6 @@
 package name.vysoky.re;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,19 +33,15 @@ import java.util.regex.Pattern;
 @SuppressWarnings("unused")
 public class Replacement {
 
-    final Logger logger = LoggerFactory.getLogger(Replacement.class);
-
     private String comment;
     private String expression;
     private Pattern pattern;
     private String replacement;
 
-
     public Replacement(String comment, String expression) throws IllegalArgumentException {
         this.comment = comment;
         this.expression = expression;
         parseExpression();
-        logger.info("Used regular expression: " + expression + " " + comment);
     }
 
     public String getComment() {
@@ -79,7 +73,7 @@ public class Replacement {
 
     private void parseExpression() throws IllegalArgumentException {
         String[] a = StringUtils.split(expression, '/');
-        if (a.length != 4) throw new IllegalArgumentException("Invalid format of regular expression!");
+        if (a.length != 4) throw new IllegalArgumentException("Invalid format of regular expression! expression='" + expression + "'");
         pattern = Pattern.compile(a[1]);
         replacement = a[2];
     }

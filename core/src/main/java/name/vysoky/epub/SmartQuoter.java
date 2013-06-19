@@ -34,7 +34,7 @@ public class SmartQuoter implements TextProcessor {
     private final Pattern leadingSingleQuotePattern = Pattern.compile("[\\s\\n]'[^\\s]");
     private final Pattern trailingDoubleQuotePattern = Pattern.compile("[^\\s]\"[\\s\\n.,;?!]");
     private final Pattern trailingSingleQuotePattern = Pattern.compile("[^\\s]'[\\s\\n.,;?!]");
-    
+
     public SmartQuoter(char leadingDoubleQuote, char trailingDoubleQuote,
                        char leadingSingleQuote, char trailingSingleQuote) {
         this.leadingDoubleQuote = leadingDoubleQuote;
