@@ -20,6 +20,7 @@ public class EpubCorrector {
     final Logger logger = LoggerFactory.getLogger(EpubCorrector.class);
 
     private EpubTool epubTool;
+    private SmartQuoter smartQuoter;
     private XhtmlProcessor replacingProcessor;
     private XhtmlProcessor quotingProcessor;
 
@@ -27,7 +28,8 @@ public class EpubCorrector {
         this.epubTool = epubTool;
         try {
             this.replacingProcessor = new XhtmlProcessor(new TextReplacer(new LocaleReplacementProvider(locale)));
-            this.quotingProcessor = new XhtmlProcessor(new SmartQuoter('\u201E','\u201C','\u201A','\u2018'));
+            this.smartQuoter = new SmartQuoter('\u201E','\u201C','\u201A','\u2018');
+            this.quotingProcessor = new XhtmlProcessor(smartQuoter);
             logger.debug("Prepared text processor.");
         } catch (Exception e) {
             logger.error("Unable to prepare XHTML processor!", e);
@@ -39,6 +41,7 @@ public class EpubCorrector {
         Spine spine = book.getSpine();
         for (SpineReference spineReference : spine.getSpineReferences()) {
             Resource resource = spineReference.getResource();
+            smartQuoter.setDocument(resource.getHref());
             String s = new String(resource.getData(), resource.getInputEncoding());
             s = replacingProcessor.process(s);
             s = quotingProcessor.process(s);

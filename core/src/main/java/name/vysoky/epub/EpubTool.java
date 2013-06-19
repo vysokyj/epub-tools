@@ -115,7 +115,7 @@ public class EpubTool {
             string = string.replace("?>", "?>\n");
             //string = string.replace("\n\n", "\n");
             FileUtils.write(file, string);
-            logger.info("Successfully saved file: " + file);
+            logger.debug("Successfully saved file: " + file);
         } catch (Exception e) {
             logger.error("Unable to save file!", e);
         }
@@ -125,7 +125,7 @@ public class EpubTool {
         try {
             File file = convertResourceToFile(resource);
             FileUtils.write(file, string);
-            logger.info("Successfully saved file: " + file);
+            logger.debug("Successfully saved file: " + file);
         } catch (Exception e) {
             logger.error("Unable to save file!", e);
         }
@@ -147,11 +147,11 @@ public class EpubTool {
         OutputStream os = null;
         try {
             File file = getTableOfContentsFile();
-            logger.info("Writing document to file: " + file);
             os = new BufferedOutputStream(new FileOutputStream(file));
             Resource resource = NCXDocument.createNCXResource(book);
             is = resource.getInputStream();
             IOUtil.copy(is, os);
+            logger.debug("Successfully saved file: " + file);
         } catch (Exception e) {
             logger.error("Unable to write TOC!", e);
         } finally {

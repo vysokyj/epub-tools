@@ -36,6 +36,7 @@ public class SmartQuoter implements TextProcessor {
     private final Pattern trailingDoubleQuotePattern = Pattern.compile("[^\\s]\"[\\s\\n.,;?!]");
     private final Pattern trailingSingleQuotePattern = Pattern.compile("[^\\s]'[\\s\\n.,;?!]");
 
+    private String document = "UNKNOWN";
     private int line = 1;
 
     public SmartQuoter(char leadingDoubleQuote, char trailingDoubleQuote,
@@ -46,10 +47,17 @@ public class SmartQuoter implements TextProcessor {
         this.trailingSingleQuote = trailingSingleQuote;
     }
 
+    public void setDocument(String document) {
+        this.document = document;
+        this.line = 1;
+    }
+
     @Override
     public String process(String input) {
-        line += StringUtils.countMatches(input, "\n");
-        if (input.replace("\n", "").trim().isEmpty()) return input; // skip empty lines
+        if (input.replace("\n", "").trim().isEmpty()) {
+            line += StringUtils.countMatches(input, "\n");
+            return input; // skip empty lines
+        }
         input = convertToDefaultQuotes(input);
         char[] chars = input.toCharArray();
         processChars(chars);
@@ -105,21 +113,21 @@ public class SmartQuoter implements TextProcessor {
         }
         
         if (lastDoubleQuoteIsLeading && isProbablyLeadingDoubleQuote(input, index)) {
-            logger.warn("Missing trailing quote [" + line + ":" + index + "]: " + new String(input));
+            logger.warn("{}[{}:{}]: Missing trailing quote: {}", document, line, index, getText(input, index));
             input[index] = leadingDoubleQuote;
             lastDoubleQuoteIsLeading = true;
             return;
         }
 
         if (!lastDoubleQuoteIsLeading && isProbablyTrailingDoubleQuote(input, index)) {
-            logger.warn("Missing leading quote [" + line + ":" + index + "]: " + new String(input));
+            logger.warn("{}[{}:{}]: Missing leading quote: {}", document, line, index, getText(input, index));
             input[index] = trailingDoubleQuote;
             lastDoubleQuoteIsLeading = false;
             return;
         }
         
         if (!isProbablyLeadingDoubleQuote(input, index) && !isProbablyTrailingDoubleQuote(input, index)) {
-            logger.warn("Unsure quote type [" + line + ":" + index + "]");
+            logger.warn("{}[{}:{}]: Unknown quote type: {}", document, line, index, getText(input, index));
             input[index] = lastDoubleQuoteIsLeading ? trailingDoubleQuote : leadingDoubleQuote;
             lastDoubleQuoteIsLeading = !lastDoubleQuoteIsLeading;
         }            
@@ -139,29 +147,42 @@ public class SmartQuoter implements TextProcessor {
         }
 
         if (lastSingleQuoteIsLeading && isProbablyLeadingSingleQuote(input, index)) {
-            logger.warn("Missing trailing quote [" + line + ":" + index + "]: " + new String(input));
+            logger.warn("{}[{}:{}]: Missing trailing quote: {}", document, line, index, getText(input, index));
             input[index] = leadingSingleQuote;
             lastSingleQuoteIsLeading = true;
             return;
         }
 
         if (!lastSingleQuoteIsLeading && isProbablyTrailingSingleQuote(input, index)) {
-            logger.warn("Missing leading quote [" + line + ":" + index + "]: " + new String(input));
+            logger.warn("{}[{}:{}]: Missing leading quote: {}", document, line, index, getText(input, index));
             input[index] = trailingDoubleQuote;
             lastSingleQuoteIsLeading = false;
             return;
         }
 
         if (!isProbablyLeadingSingleQuote(input, index) && !isProbablyTrailingSingleQuote(input, index)) {
-            logger.warn("Unsure quote type [" + line + ":" + index + "]: " + new String(input));
+            logger.warn("{}[{}:{}]: Unknown quote type: {}", document, line, index, getText(input, index));
             input[index] = lastSingleQuoteIsLeading ? trailingSingleQuote : leadingSingleQuote;
             lastSingleQuoteIsLeading = !lastSingleQuoteIsLeading;
         }
+    }
+
+    private String getText(char[] input, int index) {
+        final int BEFORE = 20;
+        final int AFTER = 20;
+        int from = ((index - BEFORE) < 0) ? 0 : (index - BEFORE);
+        int to = ((index + AFTER) > (input.length - 1)) ? (input.length - 1) : (index + AFTER);
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"...");
+        for (int i = from; i < to; i++) sb.append(input[i]);
+        sb.append("...\"");
+        return sb.toString();
     }
     
     private void processChars(char[] chars) {
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
+            if (c == '\n') line++;
             if (c == DEFAULT_DOUBLE_QUOTE) processDoubleQuote(chars, i);
             if (c == DEFAULT_SINGLE_QUOTE) processSingleQuote(chars, i);
         }
