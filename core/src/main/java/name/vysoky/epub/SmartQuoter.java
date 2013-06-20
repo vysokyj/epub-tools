@@ -64,7 +64,7 @@ public class SmartQuoter implements TextProcessor {
         return new String(chars);
     }    
 
-    String convertToDefaultQuotes(String input) {
+    public static String convertToDefaultQuotes(String input) {
         for (char c : SINGLE_QUOTES) input = input.replace(c, DEFAULT_SINGLE_QUOTE);
         for (char c : DOUBLE_QUOTES) input = input.replace(c, DEFAULT_DOUBLE_QUOTE);
         return input;
