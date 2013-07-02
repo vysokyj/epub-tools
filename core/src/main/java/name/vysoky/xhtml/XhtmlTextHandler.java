@@ -50,7 +50,8 @@ public class XhtmlTextHandler extends DefaultHandler {
     }
 
     private void process(char c) {
-        char last = (sb.length() > 0) ? sb.charAt(sb.length() - 1) : '$';
+        char last = (sb.length() > 0) ? sb.charAt(sb.length() - 1) : '\n';
+        if (c == '\t') c = ' ';                 // convert tab to space
         if (c == '\n' && last == '\n') return;  // skip double lines
         if (c == ' '  && last == ' ' ) return;  // skip double spaces
         if (c == ' '  && last == '\n') return;  // skip spaces after line
