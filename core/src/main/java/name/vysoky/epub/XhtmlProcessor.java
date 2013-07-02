@@ -22,7 +22,7 @@
 package name.vysoky.epub;
 
 /**
- * Read XHTML file character by character and extract strings between tags
+ * Read XHTML file character by character and extractPlainText strings between tags
  * than invoke string processor on extracted text and write modified string.
  */
 @SuppressWarnings("unused")
