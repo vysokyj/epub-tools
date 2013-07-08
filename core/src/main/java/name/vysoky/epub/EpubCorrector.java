@@ -36,14 +36,24 @@ public class EpubCorrector {
         }
     }
 
-    public void correct() throws IOException {
+    public void executeReplacer() throws IOException {
+        Book book = epubTool.getBook();
+        Spine spine = book.getSpine();
+        for (SpineReference spineReference : spine.getSpineReferences()) {
+            Resource resource = spineReference.getResource();
+            String s = new String(resource.getData(), resource.getInputEncoding());
+            s = replacingProcessor.process(s);
+            epubTool.writeResourceAsString(resource, s);
+        }
+    }
+
+    public void executeSmartQuoter() throws IOException {
         Book book = epubTool.getBook();
         Spine spine = book.getSpine();
         for (SpineReference spineReference : spine.getSpineReferences()) {
             Resource resource = spineReference.getResource();
             smartQuoter.setDocument(resource.getHref());
             String s = new String(resource.getData(), resource.getInputEncoding());
-            s = replacingProcessor.process(s);
             s = quotingProcessor.process(s);
             epubTool.writeResourceAsString(resource, s);
         }

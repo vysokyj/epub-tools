@@ -11,14 +11,13 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Task correcting common XHTML error using specific locale setting and regular expression batch.
+ * Smart quotation.
  *
  * @author Jiri Vysoky
  */
-@SuppressWarnings("unused")
-public class CorrectTask extends Task {
+public class QuoteTask extends Task {
 
-    final Logger logger = LoggerFactory.getLogger(CorrectTask.class);
+    final Logger logger = LoggerFactory.getLogger(QuoteTask.class);
 
     /** Default locale language used by corrector. */
     public static final String DEFAULT_LANGUAGE = "cs";
@@ -61,9 +60,10 @@ public class CorrectTask extends Task {
             Locale locale = new Locale(language, country);
             EpubTool epubTool = new EpubTool(directory);
             EpubCorrector corrector = new EpubCorrector(epubTool, locale);
-            corrector.correct();
+            corrector.executeSmartQuoter();
         } catch (Exception e) {
             logger.error("Unable to process epub!", e);
         }
     }
+
 }
