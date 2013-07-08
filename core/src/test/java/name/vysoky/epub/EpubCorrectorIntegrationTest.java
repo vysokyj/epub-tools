@@ -19,7 +19,8 @@ public class EpubCorrectorIntegrationTest {
             Locale locale = new Locale("cs", "CZ");
             EpubTool epubTool = new EpubTool(directory);
             EpubCorrector corrector = new EpubCorrector(epubTool, locale);
-            corrector.correct();
+            corrector.executeReplacer();
+            corrector.executeSmartQuoter();
         } catch (Exception e) {
             e.printStackTrace();
         }
