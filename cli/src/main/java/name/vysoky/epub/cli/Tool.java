@@ -65,7 +65,7 @@ public class Tool {
         if (simplify) {
             string = SmartQuoter.convertToDefaultQuotes(string);
             string = string.replaceAll("\u2013", "-"); // replace dash with minus
-            string = string.replaceAll("\u00A0", "");  // replace non breaking space with space
+            string = string.replaceAll("\u00A0", " ");  // replace non breaking space with space
         }
         if (textFile == null) System.out.println(string);
         else FileUtils.writeStringToFile(textFile, string);
