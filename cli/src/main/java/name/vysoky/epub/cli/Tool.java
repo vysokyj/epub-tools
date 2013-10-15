@@ -1,17 +1,8 @@
 package name.vysoky.epub.cli;
 
-import name.vysoky.epub.SmartQuoter;
-import name.vysoky.xhtml.XhtmlTool;
-import nl.siegmann.epublib.domain.Book;
-import nl.siegmann.epublib.domain.Resource;
-import nl.siegmann.epublib.domain.Spine;
-import nl.siegmann.epublib.domain.SpineReference;
-import nl.siegmann.epublib.epub.EpubReader;
+import name.vysoky.epub.EpubConverter;
 import org.apache.commons.cli.*;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -35,7 +26,7 @@ public class Tool {
                 String input = line.getArgList().get(0).toString();
                 String output = (line.getArgList().size() == 2) ? line.getArgList().get(1).toString() : null;
                 boolean simplify = line.hasOption("simplify");
-                extractText(input, output, simplify);
+                EpubConverter.convertToPlainText(input, output, simplify);
             }
         } catch (ParseException e) {
             System.err.println("Command line parsing failed. Reason: " + e.getMessage());
@@ -45,29 +36,4 @@ public class Tool {
         }
     }
 
-    private static void extractText(String input, String output, boolean simplify) throws IOException {
-        File epubFile = new File(input);
-        File textFile = (output == null) ? null : new File(output);
-        EpubReader reader = new EpubReader();
-        StringBuilder stringBuilder = new StringBuilder();
-        Book book = reader.readEpub(new FileInputStream(epubFile));
-        Spine spine = book.getSpine();
-        String string; // extracted text
-        for (SpineReference spineReference : spine.getSpineReferences())  {
-            Resource resource = spineReference.getResource();
-            try {
-                XhtmlTool.extractPlainText(resource.getInputStream(), stringBuilder);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        string = stringBuilder.toString();
-        if (simplify) {
-            string = SmartQuoter.convertToDefaultQuotes(string);
-            string = string.replaceAll("\u2013", "-"); // replace dash with minus
-            string = string.replaceAll("\u00A0", " ");  // replace non breaking space with space
-        }
-        if (textFile == null) System.out.println(string);
-        else FileUtils.writeStringToFile(textFile, string);
-    }
 }

@@ -4,7 +4,7 @@ mvn clean install
 
 echo Installing ANT tool
 generated=ant/target/*-jar-with-dependencies.jar
-target=/home/dropbox/epub-project/lib/antpub.jar
+target=~/Dropbox/epub-project/lib/antpub.jar
 #target=/home/jirka/.ant/lib/antpub.jar
 mvn package assembly:assembly -DdescriptorId=jar-with-dependencies -pl ant
 rm $target
