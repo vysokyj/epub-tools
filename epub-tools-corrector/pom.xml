@@ -8,37 +8,8 @@
     </parent>
     <artifactId>epub-tools-corrector</artifactId>
     <packaging>jar</packaging>
-
     <name>ePUB Tools - Corrector</name>
     <description>Typographic corrector and style simplifier for ePUB documents.</description>
-    <url>https://github.com/vysokyj/epub-corrector/</url>
-
-    <licenses>
-        <license>
-            <name>The GNU General Public License, Version 3</name>
-            <url>http://www.gnu.org/licenses/gpl.txt</url>
-            <distribution>repo</distribution>
-            <comments>Free, copyleft license for software and other kinds of works.</comments>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>vysokyj</id>
-            <name>Jiri Vysoky</name>
-            <email>jiri@vysoky.name</email>
-            <url>http://jiri.vysoky.name</url>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>1</timezone>
-        </developer>
-    </developers>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <repositories>
         <repository>
             <id>phloc-repo</id>
@@ -46,31 +17,13 @@
             <url>http://repo.phloc.com/maven2/</url>
         </repository>
     </repositories>
-
     <pluginRepositories>
         <pluginRepository>
             <id>codehaus-snapshots</id>
             <url>http://snapshots.repository.codehaus.org/</url>
         </pluginRepository>
     </pluginRepositories>
-
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-        </dependency>
         <dependency>
             <groupId>com.jgoodies</groupId>
             <artifactId>looks</artifactId>
