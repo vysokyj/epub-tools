@@ -4,7 +4,7 @@ Useful ePUB tools for professional work.
 
 ## ePUB Ant Scripts and CLI
 
-Tools for extracting and packing ePUB books.
+Tools for extracting and packaging ePUB books.
 
 ## ePUB Plaintext Extractor
 
