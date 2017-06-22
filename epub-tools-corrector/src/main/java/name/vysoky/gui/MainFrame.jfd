@@ -1,0 +1,176 @@
+JFDML JFormDesigner: "5.1.0.0.51" Java: "1.7.0_09" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			"title": "ePUB Corrector"
+			"defaultCloseOperation": 3
+			"minimumSize": new java.awt.Dimension( 640, 480 )
+			"name": "mainFrame"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
+				name: "centralCardPanel"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
+					name: "emptyPanel"
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "emptyCard"
+				} )
+				add( new FormComponent( "name.vysoky.gui.ValidatorPanel" ) {
+					name: "validatorPanel"
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "validatorCard"
+				} )
+				add( new FormComponent( "name.vysoky.gui.TidyPanel" ) {
+					name: "tidyPanel"
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "tidyCard"
+				} )
+				add( new FormComponent( "name.vysoky.gui.CorrectorPanel" ) {
+					name: "correctorPanel"
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "correctorCard"
+				} )
+				add( new FormComponent( "name.vysoky.gui.StylePanel" ) {
+					name: "stylePanel"
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "styleCard"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "menuBar"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "fileMenu"
+					"text": "File"
+					"mnemonic": 70
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "openFileMenuItem"
+						"action": new FormReference( "openAction" )
+						"text": "Open"
+						"mnemonic": 79
+						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 79, 130, false )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "compressAndQuitMenuItem"
+						"mnemonic": 67
+						"action": new FormReference( "saveAndQuitAction" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 83, 130, false )
+						"icon": new com.jformdesigner.model.SwingIcon( 2, "FileView.floppyDriveIcon" )
+						"text": "Save and quit"
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "runMenu"
+					"text": "Run"
+					"mnemonic": 82
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "correctorMenuItem"
+						"mnemonic": 67
+						"action": new FormReference( "correctAction" )
+						"enabled": false
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "tidyMenuItem"
+						"mnemonic": 84
+						"action": new FormReference( "tidyAction" )
+						"enabled": false
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "listStylesMenuItem"
+						"action": new FormReference( "listStylesAction" )
+						"accelerator": static javax.swing.KeyStroke getKeyStroke( 76, 130, false )
+						"enabled": false
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "validatorMenuItem"
+						"mnemonic": 86
+						"action": new FormReference( "validateAction" )
+						"enabled": false
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "helpMenu"
+					"text": "Help"
+					"mnemonic": 72
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "menuItem1"
+						"mnemonic": 65
+						"action": new FormReference( "aboutAction" )
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 835, 390 )
+		} )
+		add( new FormNonVisual( "javax.swing.AbstractAction" ) {
+			name: "openAction"
+			"$action.Name": "Open"
+			auxiliary() {
+				"JavaCodeGenerator.className": "OpenAction"
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 5, 415 )
+		} )
+		add( new FormNonVisual( "javax.swing.AbstractAction" ) {
+			name: "saveAndQuitAction"
+			"$action.Name": "Save and quit"
+			auxiliary() {
+				"JavaCodeGenerator.className": "SaveAndQuitAction"
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 5, 470 )
+		} )
+		add( new FormNonVisual( "javax.swing.AbstractAction" ) {
+			name: "aboutAction"
+			"$action.Name": "About"
+			auxiliary() {
+				"JavaCodeGenerator.className": "AboutAction"
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 5, 525 )
+		} )
+		add( new FormNonVisual( "javax.swing.AbstractAction" ) {
+			name: "correctAction"
+			"$action.Name": "Correct"
+			"$action.AcceleratorKey": static javax.swing.KeyStroke getKeyStroke( 67, 130, false )
+			auxiliary() {
+				"JavaCodeGenerator.className": "CorrectAction"
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 5, 575 )
+		} )
+		add( new FormNonVisual( "javax.swing.AbstractAction" ) {
+			name: "tidyAction"
+			"$action.Name": "Tidy"
+			"$action.AcceleratorKey": static javax.swing.KeyStroke getKeyStroke( 84, 130, false )
+			auxiliary() {
+				"JavaCodeGenerator.className": "TidyAction"
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 5, 625 )
+		} )
+		add( new FormNonVisual( "javax.swing.AbstractAction" ) {
+			name: "validateAction"
+			"$action.Name": "Validate"
+			"$action.AcceleratorKey": static javax.swing.KeyStroke getKeyStroke( 86, 130, false )
+			auxiliary() {
+				"JavaCodeGenerator.className": "ValidateAction"
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 5, 680 )
+		} )
+		add( new FormNonVisual( "javax.swing.AbstractAction" ) {
+			name: "listStylesAction"
+			"$action.Name": "List styles"
+			auxiliary() {
+				"JavaCodeGenerator.className": "ListStyleAction"
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 733 )
+		} )
+	}
+}

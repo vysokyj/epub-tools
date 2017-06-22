@@ -9,15 +9,15 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>core</module>
-        <module>ant</module>
-        <module>cli</module>
+        <module>epub-tools-corrector</module>
+        <module>epub-tools-plaintext</module>
+        <module>epub-tools-core</module>
+        <module>epub-tools-ant</module>
+        <module>epub-tools-cli</module>
     </modules>
-
     <name>ePUB Tools</name>
     <description>Useful ePUB tools for professional work.</description>
     <url>https://github.com/vysokyj/epub-tools/</url>
-
     <licenses>
         <license>
             <name>The GNU General Public License, Version 3</name>
@@ -26,7 +26,6 @@
             <comments>Free, copyleft license for software and other kinds of works.</comments>
         </license>
     </licenses>
-
     <developers>
         <developer>
             <id>vysokyj</id>

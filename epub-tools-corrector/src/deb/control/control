@@ -1,0 +1,9 @@
+Package: epub-corrector
+Version: [[version]]
+Section: utils
+Priority: optional
+Architecture: all
+Depends: default-jre (>= 1.6)
+Maintainer: Jiri Vysoky <jiri@vysoky.name>
+Description: [[description]]
+Distribution: development

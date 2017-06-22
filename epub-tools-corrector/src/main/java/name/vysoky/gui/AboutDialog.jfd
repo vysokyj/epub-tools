@@ -1,0 +1,39 @@
+JFDML JFormDesigner: "5.1.0.0.51" Java: "1.7.0_09" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "20, 0:1.0, 20"
+			"$rowSpecs": "20, 0, 0, 20"
+			"$hGap": 5
+			"$vGap": 5
+			"$alignLeft": true
+			"$alignTop": true
+		} ) {
+			name: "this"
+			"title": "About application"
+			"defaultCloseOperation": 2
+			"resizable": false
+			"modalityType": enum java.awt.Dialog$ModalityType APPLICATION_MODAL
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "applicationNameLabel"
+				"text": "ePUB Corrector"
+				"font": new java.awt.Font( "Dialog", 1, 18 )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 1
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "copyrightLabel"
+				"text": "Copyright (c) Jiří Vysoký, 2012"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 2
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 360, 120 )
+		} )
+	}
+}
